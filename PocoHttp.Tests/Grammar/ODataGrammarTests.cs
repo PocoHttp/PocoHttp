@@ -62,6 +62,17 @@ namespace PocoHttp.Tests.Grammar
 			Assert.AreEqual("$filter=(Model eq 'X3')&$skip=20&$orderby=Price DESC", result);
 		}
 
+		[Test]
+		public void ComplexTest_With_Substring()
+		{
+			var oDataVisitor = new ODataVisitor();
+			string model = "X";
+			Expression<Func<IQueryable<Car>, IEnumerable<Car>>> expression = (IQueryable<Car> data) =>
+				data.Where(x => x.Model.Substring(0,1) == model);
 
+			var result = oDataVisitor.Translate(expression);
+			Console.WriteLine(result);
+			Assert.AreEqual("$filter=(substring(Model,0,1) eq 'X')", result);
+		}
 	}
 }

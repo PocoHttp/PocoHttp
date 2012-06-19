@@ -41,6 +41,7 @@ namespace PocoHttp.Internal
 				.Then(m1 => m1.Method.DeclaringType == typeof(Queryable) && m1.Method.Name == "Skip", HandleSkip)
 				.Then(m1 => m1.Method.DeclaringType == typeof(Queryable) && m1.Method.Name == "OrderBy", HandleOrderBy)
 				.Then(m1 => m1.Method.DeclaringType == typeof(Queryable) && m1.Method.Name == "OrderByDescending", HandleOrderByDescending)
+				.Then(m1 => m1.Method.Name == "Substring", HandleSubstring)
 				.Else(m1 =>
 				      	{
 				      		throw new NotSupportedException(string.Format("The method '{0}' is not supported", m.Method.Name));
@@ -93,8 +94,19 @@ namespace PocoHttp.Internal
 			LambdaExpression lambda = (LambdaExpression)StripQuotes(m.Arguments[1]);
 			this.Visit(lambda.Body);
 			sb.Append(" DESC");
+
 		}
 
+		private void HandleSubstring(MethodCallExpression m)
+		{
+			sb.Append("substring(");
+			this.Visit(m.Object);
+			sb.Append(",");
+			this.Visit(m.Arguments[0]);
+			sb.Append(",");
+			this.Visit(m.Arguments[1]);
+			sb.Append(")");
+		}
 
 		private void AddAndIfNeeded()
 		{
