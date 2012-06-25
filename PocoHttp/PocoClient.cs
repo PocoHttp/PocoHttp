@@ -11,8 +11,8 @@ namespace PocoHttp
 {
 	public class PocoClient : IPocoClient
 	{
-		private IPocoRuntime _pocoRuntime;
-		private HttpClient _httpClient;
+		private readonly IPocoRuntime _pocoRuntime;
+		private readonly HttpClient _httpClient;
 
 		public PocoClient() : this(PocoRuntime.Current)
 		{
@@ -43,7 +43,7 @@ namespace PocoHttp
 					{
 						EntityType = entityType,
 						HttpClient = _httpClient,
-						Runtime = _pocoRuntime,
+						Runtime = Runtime,
 						Request = request
 					}
 				);
@@ -57,13 +57,18 @@ namespace PocoHttp
 		public IQueryable Context(Type entityType)
 		{
 			return Context(entityType,
-				_pocoRuntime.UriBuilder.BuildUri(entityType, _pocoRuntime.UsePluralUrls));
+				Runtime.UriBuilder.BuildUri(entityType, Runtime.UsePluralUrls));
 		}
 
 		public Uri BaseAddress
 		{
 			get { return _httpClient.BaseAddress; }
 			set { _httpClient.BaseAddress = value; }
+		}
+
+		public IPocoRuntime Runtime
+		{
+			get { return _pocoRuntime; }
 		}
 
 		public void Dispose()

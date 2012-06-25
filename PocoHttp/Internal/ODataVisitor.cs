@@ -35,18 +35,31 @@ namespace PocoHttp.Internal
 
 		protected override Expression VisitMethodCall(MethodCallExpression m)
 		{
-			ChainOfResponsibility<MethodCallExpression>
-				.Start(m1 => m1.Method.DeclaringType == typeof(Queryable) && m1.Method.Name == "Where", HandleWhere)
-				.Then(m1 => m1.Method.DeclaringType == typeof(Queryable) && m1.Method.Name == "Take", HandleTake)
-				.Then(m1 => m1.Method.DeclaringType == typeof(Queryable) && m1.Method.Name == "Skip", HandleSkip)
-				.Then(m1 => m1.Method.DeclaringType == typeof(Queryable) && m1.Method.Name == "OrderBy", HandleOrderBy)
-				.Then(m1 => m1.Method.DeclaringType == typeof(Queryable) && m1.Method.Name == "OrderByDescending", HandleOrderByDescending)
-				.Then(m1 => m1.Method.Name == "Substring", HandleSubstring)
+			if(m.Method.DeclaringType == typeof(Queryable))
+			{
+				ChainOfResponsibility<MethodCallExpression>
+					.Start(m1 => m1.Method.Name == "Where", HandleWhere)
+					.Then(m1 => m1.Method.Name == "Take", HandleTake)
+					.Then(m1 => m1.Method.Name == "Skip", HandleSkip)
+					.Then(m1 => m1.Method.Name == "OrderBy", HandleOrderBy)
+					.Then(m1 => m1.Method.Name == "OrderByDescending", HandleOrderByDescending)
+					.Else(m1 =>
+					      	{
+					      		throw new NotSupportedException(string.Format("The method '{0}' is not supported", m.Method.Name));
+					      	})
+							.Run(m);
+			}
+			else
+			{
+				ChainOfResponsibility<MethodCallExpression>
+				.Start(m1 => m1.Method.Name == "Substring", HandleSubstring)
 				.Else(m1 =>
 				      	{
 				      		throw new NotSupportedException(string.Format("The method '{0}' is not supported", m.Method.Name));
 				      	})
 				.Run(m);
+				
+			}
 				
 
 			return m;

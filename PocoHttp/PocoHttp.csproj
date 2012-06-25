@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="Grammars\ODataGrammar.cs" />
     <Compile Include="Grammars\IHttpDataGrammar.cs" />
+    <Compile Include="Grammars\PaginationGrammer.cs" />
     <Compile Include="Grammars\QueryStringGrammar.cs" />
     <Compile Include="Internal\Helper\ChainOfResponsibility.cs" />
     <Compile Include="Internal\HttpProvider.cs" />

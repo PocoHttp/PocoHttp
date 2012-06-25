@@ -18,7 +18,7 @@ namespace PocoHttp.Routing
 			if(attributeUri!=null)
 				return new Uri(GetAttributeUri(type), UriKind.Relative);
 
-			string uri = "/" + type.Name;
+			string uri = type.Name;
 			if(usePluralUris)
 				uri += "s";
 			return new Uri(uri, UriKind.Relative);
