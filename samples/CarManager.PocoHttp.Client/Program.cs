@@ -17,6 +17,7 @@ namespace CarManager.PocoHttp.Client
 			                 	};
 			var list = pocoClient.Context<Car>()
 				.Take(1).ToList();
+
 			Console.WriteLine(list[0]);
 
 			Console.Read();
