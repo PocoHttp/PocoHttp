@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Text;
@@ -39,7 +40,11 @@ namespace PocoHttp.Internal
  			if(formatters == null || formatters.Count()==0)
  				formatters = new MediaTypeFormatterCollection();
 
-			Trace.WriteLine(_context.Request.RequestUri.ToString());
+			if(response.StatusCode!= HttpStatusCode.OK)
+			{
+				throw new PocoHttpResponseException(response);
+			}
+
 			task = response.Content.ReadAsAsync(
 				typeof(IEnumerable<>).MakeGenericType(_context.EntityType), 
 				formatters);

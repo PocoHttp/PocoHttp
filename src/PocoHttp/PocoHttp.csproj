@@ -73,6 +73,7 @@
     <Compile Include="Extensions\IPocoClientExtensions.cs" />
     <Compile Include="IPocoRuntime.cs" />
     <Compile Include="PocoClient.cs" />
+    <Compile Include="PocoHttpResponseException.cs" />
     <Compile Include="PocoRuntime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Routing\EntityUriAttribute.cs" />
