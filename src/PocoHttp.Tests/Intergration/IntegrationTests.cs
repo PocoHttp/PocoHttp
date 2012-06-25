@@ -13,6 +13,7 @@ namespace PocoHttp.Tests.Intergration
 	public class IntegrationTests
 	{
 		[Test]
+		[Ignore]
 		public void GetCars()
 		{
 			var pocoClient = new PocoClient()
@@ -24,6 +25,7 @@ namespace PocoHttp.Tests.Intergration
 		}
 
 		[Test]
+		[Ignore]
 		public void GetCars2()
 		{
 			var request = new HttpRequestMessage(HttpMethod.Get, "Cars");

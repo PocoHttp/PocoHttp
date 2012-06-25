@@ -61,6 +61,7 @@
     <Compile Include="Grammar\ODataFilterTests.cs" />
     <Compile Include="Grammar\ODataGrammarTests.cs" />
     <Compile Include="Grammar\ODataTopTests.cs" />
+    <Compile Include="Grammar\PaginationGrammarTests.cs" />
     <Compile Include="Grammar\QueryStringGrammarTests.cs" />
     <Compile Include="Intergration\IntegrationTests.cs" />
     <Compile Include="Model\Car.cs" />

@@ -57,6 +57,7 @@
     <Compile Include="Grammars\ODataGrammar.cs" />
     <Compile Include="Grammars\IHttpDataGrammar.cs" />
     <Compile Include="Grammars\PaginationGrammer.cs" />
+    <Compile Include="Grammars\PaginationVocabulary.cs" />
     <Compile Include="Grammars\QueryStringGrammar.cs" />
     <Compile Include="Internal\Helper\ChainOfResponsibility.cs" />
     <Compile Include="Internal\HttpProvider.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Internal\LinqHelper\QueryTranslator.cs" />
     <Compile Include="Internal\LinqHelper\TypeSystem.cs" />
     <Compile Include="Internal\ODataVisitor.cs" />
+    <Compile Include="Internal\PaginationVisitor.cs" />
     <Compile Include="IPocoClient.cs" />
     <Compile Include="Extensions\IPocoClientExtensions.cs" />
     <Compile Include="IPocoRuntime.cs" />
