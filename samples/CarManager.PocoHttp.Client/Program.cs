@@ -16,7 +16,7 @@ namespace CarManager.PocoHttp.Client
 			                 		BaseAddress = new Uri("http://localhost:12889/api/")
 			                 	};
 			var list = pocoClient.Context<Car>()
-				.Take(1).ToList();
+				.Where(x=>x.Make == "BMW").Take(1).ToList();
 
 			Console.WriteLine(list[0]);
 

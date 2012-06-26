@@ -25,18 +25,20 @@ namespace PocoHttp.Internal
 
 		public override string GetQueryText(Expression expression)
 		{
-			return _context.Runtime.Grammar.GetQueryText(expression);
+			return _context.Configuration.Grammar.GetQueryText(expression);
 		}
 
 		public override object Execute(Expression expression)
 		{
-			_context.Runtime.Grammar.Compose(expression, _context.Request);
-			if (_context.Runtime.RequestSetup != null)
-				_context.Runtime.RequestSetup(_context.Request);
+			_context.Configuration.Grammar.Compose(expression, _context.Request);
+			Trace.WriteLine(_context.Request.RequestUri.ToString());
+
+			if (_context.Configuration.RequestSetup != null)
+				_context.Configuration.RequestSetup(_context.Request);
 
 			var response = _context.HttpClient.SendAsync(_context.Request).Result;
 			Task<object> task = null;
-			var formatters = _context.Runtime.CustomFormatters;
+			var formatters = _context.Configuration.CustomFormatters;
  			if(formatters == null || formatters.Count()==0)
  				formatters = new MediaTypeFormatterCollection();
 
@@ -45,9 +47,7 @@ namespace PocoHttp.Internal
 				throw new PocoHttpResponseException(response);
 			}
 
-			task = response.Content.ReadAsAsync(
-				typeof(IEnumerable<>).MakeGenericType(_context.EntityType), 
-				formatters);
+			task = _context.Configuration.ResponseReader(response, formatters, _context.EntityType);
 
 			return task.Result;
 		}

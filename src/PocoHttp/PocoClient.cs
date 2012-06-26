@@ -11,21 +11,21 @@ namespace PocoHttp
 {
 	public class PocoClient : IPocoClient
 	{
-		private readonly IPocoRuntime _pocoRuntime;
+		private readonly PocoConfiguration _pocoConfiguration;
 		private readonly HttpClient _httpClient;
 
-		public PocoClient() : this(PocoRuntime.Current)
+		public PocoClient() : this(new PocoConfiguration())
 		{
 			
 		}
 
-		public PocoClient(IPocoRuntime runtime)
+		public PocoClient(PocoConfiguration configuration)
 		{
-			_pocoRuntime = runtime;
-			if (runtime.Handler == null)
+			_pocoConfiguration = configuration;
+			if (configuration.Handler == null)
 				_httpClient = new HttpClient();
 			else
-				_httpClient = new HttpClient(runtime.Handler, runtime.DisposeHandler);
+				_httpClient = new HttpClient(configuration.Handler, configuration.DisposeHandler);
 	
 		}
 
@@ -43,7 +43,7 @@ namespace PocoHttp
 					{
 						EntityType = entityType,
 						HttpClient = _httpClient,
-						Runtime = Runtime,
+						Configuration = Configuration,
 						Request = request
 					}
 				);
@@ -57,7 +57,7 @@ namespace PocoHttp
 		public IQueryable Context(Type entityType)
 		{
 			return Context(entityType,
-				Runtime.UriBuilder.BuildUri(entityType, Runtime.UsePluralUrls));
+				Configuration.UriBuilder.BuildUri(entityType, Configuration.UsePluralUrls));
 		}
 
 		public Uri BaseAddress
@@ -66,9 +66,9 @@ namespace PocoHttp
 			set { _httpClient.BaseAddress = value; }
 		}
 
-		public IPocoRuntime Runtime
+		public PocoConfiguration Configuration
 		{
-			get { return _pocoRuntime; }
+			get { return _pocoConfiguration; }
 		}
 
 		public void Dispose()

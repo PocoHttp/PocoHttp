@@ -18,7 +18,7 @@ namespace PocoHttp.Tests.Intergration
 		{
 			var pocoClient = new PocoClient()
 				{BaseAddress = new Uri("http://localhost:56572/api/")};
-			pocoClient.Runtime.UsePluralUrls = true;
+			pocoClient.Configuration.UsePluralUrls = true;
 			var list = pocoClient.Context<Car>()
 				.Where(x=>x.Make == "Fiat").OrderBy(x=>x.Price).ToList();
 			Console.WriteLine(list[1].Model);

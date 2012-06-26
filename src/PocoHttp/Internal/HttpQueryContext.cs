@@ -9,7 +9,7 @@ namespace PocoHttp.Internal
 {
 	internal class HttpQueryContext
 	{
-		public IPocoRuntime Runtime { get; set; }
+		public PocoConfiguration Configuration { get; set; }
 
 		public Type EntityType { get; set; }
 
