@@ -188,6 +188,12 @@ namespace PocoHttp.Internal
 			IQueryable q = c.Value as IQueryable;
 			if (q != null)
 			{
+				
+				var innerExpression = q.Expression;
+				if (innerExpression.NodeType == ExpressionType.Call)
+				{
+					VisitMethodCall(innerExpression as MethodCallExpression);
+				}
 				//throw new NotSupportedException("Constant from IQueryable not supported."); // TODO: lool at this scenario
 			}
 			else if (c.Value == null)
@@ -234,6 +240,56 @@ namespace PocoHttp.Internal
 				return m;
 			}
 			throw new NotSupportedException(string.Format("The member '{0}' is not supported", m.Member.Name));
+		}
+
+		protected override Expression VisitInvocation(InvocationExpression node)
+		{
+			return base.VisitInvocation(node);
+		}
+
+		protected override Expression VisitLambda<T>(Expression<T> node)
+		{
+			return base.VisitLambda<T>(node);
+		}
+
+		protected override Expression VisitParameter(ParameterExpression node)
+		{
+			return base.VisitParameter(node);
+		}
+
+		protected override MemberBinding VisitMemberBinding(MemberBinding node)
+		{
+			return base.VisitMemberBinding(node);
+		}
+
+		protected override Expression VisitBlock(BlockExpression node)
+		{
+			return base.VisitBlock(node);
+		}
+
+		protected override Expression VisitConditional(ConditionalExpression node)
+		{
+			return base.VisitConditional(node);
+		}
+
+		protected override Expression VisitExtension(Expression node)
+		{
+			return base.VisitExtension(node);
+		}
+
+		public override Expression Visit(Expression node)
+		{
+			return base.Visit(node);
+		}
+
+		protected override MemberAssignment VisitMemberAssignment(MemberAssignment node)
+		{
+			return base.VisitMemberAssignment(node);
+		}
+
+		protected override Expression VisitMemberInit(MemberInitExpression node)
+		{
+			return base.VisitMemberInit(node);
 		}
 	}
 }

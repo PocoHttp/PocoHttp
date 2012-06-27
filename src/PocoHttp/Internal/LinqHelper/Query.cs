@@ -11,8 +11,8 @@ namespace PocoHttp.Internal.LinqHelper
 	internal class Query<T> : IQueryable<T>, IQueryable, IEnumerable<T>, 
 		IOrderedQueryable<T>, IOrderedQueryable
 	{
-		private QueryProvider provider;
-		private Expression expression;
+		private QueryProvider _provider;
+		private Expression _expression;
 
 		public Query(QueryProvider provider)
 		{
@@ -20,8 +20,8 @@ namespace PocoHttp.Internal.LinqHelper
 			{
 				throw new ArgumentNullException("provider");
 			}
-			this.provider = provider;
-			this.expression = Expression.Constant(this);
+			this._provider = provider;
+			this._expression = Expression.Constant(this);
 		}
 
 		public Query(QueryProvider provider, Expression expression)
@@ -38,13 +38,13 @@ namespace PocoHttp.Internal.LinqHelper
 			{
 				throw new ArgumentOutOfRangeException("expression");
 			}
-			this.provider = provider;
-			this.expression = expression;
+			this._provider = provider;
+			this._expression = expression;
 		}
 
 		Expression IQueryable.Expression
 		{
-			get { return this.expression; }
+			get { return this._expression; }
 		}
 
 		Type IQueryable.ElementType
@@ -54,22 +54,22 @@ namespace PocoHttp.Internal.LinqHelper
 
 		IQueryProvider IQueryable.Provider
 		{
-			get { return this.provider; }
+			get { return this._provider; }
 		}
 
 		public IEnumerator<T> GetEnumerator()
 		{
-			return ((IEnumerable<T>)this.provider.Execute(this.expression)).GetEnumerator();
+			return ((IEnumerable<T>)this._provider.Execute(this._expression)).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{
-			return ((IEnumerable)this.provider.Execute(this.expression)).GetEnumerator();
+			return ((IEnumerable)this._provider.Execute(this._expression)).GetEnumerator();
 		}
 
 		public override string ToString()
 		{
-			return this.provider.GetQueryText(this.expression);
+			return this._provider.GetQueryText(this._expression);
 		}
 	}
 }
