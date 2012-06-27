@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PocoHttp.Samples.ClassicOData
+namespace PocoHttp.Samples.ClassicOData.V2
 {
 	internal class Payload<T>
 	{
@@ -16,5 +16,14 @@ namespace PocoHttp.Samples.ClassicOData
 	}
 
 
+
+}
+
+namespace PocoHttp.Samples.ClassicOData.V1
+{
+	internal class Payload<T>
+	{
+		public IEnumerable<T> d { get; set; }
+	}
 
 }
